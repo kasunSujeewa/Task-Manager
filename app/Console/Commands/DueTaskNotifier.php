@@ -40,10 +40,10 @@ class DueTaskNotifier extends Command
     public function handle()
     {
         $from = date('Y-m-d');
-        $search_date = date('Y-m-d', strtotime($from. ' + 1 days'));
-        $tasks = Task::whereDate('due_date',$search_date)->get();
-        
-        if(count($tasks)>0){
+        $search_date = date('Y-m-d', strtotime($from . ' + 1 days'));
+        $tasks = Task::whereDate('due_date', $search_date)->get();
+
+        if (count($tasks) > 0) {
             foreach ($tasks as  $task) {
                 sendNotifyEmailForTaskDue::dispatch($task);
             }

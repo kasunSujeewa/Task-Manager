@@ -22,43 +22,40 @@ class TaskController extends ApiController
      */
     public function index(Request $request)
     {
-        $tasks = Task::where('user_id',auth('api')->user()->id)->orderBy('created_at','desc')->get();
-        if(count($tasks) > 0){
-            if($request->get('completed') != null && ($request->get('completed') == 'true' || $request->get('completed') == 'false')){
-                $tasks = $this->completedTasks($tasks,$request->get('completed'));
+        $tasks = Task::where('user_id', auth('api')->user()->id)->orderBy('created_at', 'desc')->get();
+        if (count($tasks) > 0) {
+            if ($request->get('completed') != null && ($request->get('completed') == 'true' || $request->get('completed') == 'false')) {
+                $tasks = $this->completedTasks($tasks, $request->get('completed'));
             }
         }
-        if(count($tasks) > 0){
-            if($request->get('overdue') != null && ($request->get('overdue') == 'true' || $request->get('overdue') == 'false')){
-                $tasks = $this->overDueTask($tasks,$request->get('overdue'));
+        if (count($tasks) > 0) {
+            if ($request->get('overdue') != null && ($request->get('overdue') == 'true' || $request->get('overdue') == 'false')) {
+                $tasks = $this->overDueTask($tasks, $request->get('overdue'));
             }
         }
 
-        return $this->successResponse($tasks,'Tasks suceessfully recieved');
-
+        return $this->successResponse($tasks, 'Tasks suceessfully recieved');
     }
 
-    public function completedTasks($tasks,$status)
+    public function completedTasks($tasks, $status)
     {
         $today =  date('Y-m-d');
-        if($status =='true'){
-            $tasks = $tasks->where('due_date','>=',$today); 
-        }
-        else{
-            $tasks = $tasks->where('due_date','<=',$today);           
+        if ($status == 'true') {
+            $tasks = $tasks->where('due_date', '>=', $today);
+        } else {
+            $tasks = $tasks->where('due_date', '<=', $today);
         }
         return $tasks;
     }
 
-    public function overDueTask($tasks,$status)
+    public function overDueTask($tasks, $status)
     {
-        if($status =='true'){
-            $status = 1; 
-        }
-        else{
+        if ($status == 'true') {
+            $status = 1;
+        } else {
             $status = 0;
         }
-        $tasks = $tasks->where('completed',$status);
+        $tasks = $tasks->where('completed', $status);
         return $tasks;
     }
     /**
@@ -78,25 +75,24 @@ class TaskController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function store(TaskRequest $request)
-    { 
+    {
         DB::beginTransaction();
 
         try {
             $request['user_id'] = auth('api')->user()->id;
-            $task = Task::create($request->all());
-    
+            $task = $this->StoreTask($request);
+
             $user = User::find(auth('api')->user()->id);
             Mail::to($user->email)->send(new NewTaskNotifier($user->name));
-    
-            return $this->successResponse($task,'Task suceessfully added');
+
+            return $this->successResponse($task, 'Task suceessfully added');
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
 
-            return $this->errorResponse($e->getMessage(),500);
+            return $this->errorResponse($e->getMessage(), 500);
         }
-        
     }
 
     /**
@@ -108,6 +104,12 @@ class TaskController extends ApiController
     public function show($id)
     {
         //
+    }
+
+    public function StoreTask($request)
+    {
+        $task = Task::create($request->all());
+        return $task;
     }
 
     /**
@@ -130,22 +132,18 @@ class TaskController extends ApiController
      */
     public function update(TaskRequest $request, $id)
     {
-
-
     }
 
     public function updatetask(UpdateTaskRequest $request, $id)
     {
 
         $task = Task::find($id);
-        if($task != null){
+        if ($task != null) {
             $task->update($request->all());
-            return $this->successResponse($task,'Task suceessfully updated');
+            return $this->successResponse($task, 'Task suceessfully updated');
+        } else {
+            return $this->errorResponse('Task not found', 404);
         }
-        else{
-            return $this->errorResponse('Task not found',404);
-        }
-
     }
 
 
@@ -158,12 +156,11 @@ class TaskController extends ApiController
     public function destroy($id)
     {
         $task = Task::find($id);
-        if($task != null){
+        if ($task != null) {
             $task->delete();
-            return $this->successResponse($task,'Task suceessfully deleted');
-        }
-        else{
-            return $this->errorResponse('Task not found',404);
+            return $this->successResponse($task, 'Task suceessfully deleted');
+        } else {
+            return $this->errorResponse('Task not found', 404);
         }
     }
 }

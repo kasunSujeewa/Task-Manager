@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\TaskController as APITaskController;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\TaskRequest;
@@ -19,9 +20,9 @@ class TaskController extends Controller
     public function index()
     {
         $today =  date('Y-m-d');
-        $tasks = Task::where('user_id',auth()->user()->id)->orderBy('created_at','desc')->get();
+        $tasks = Task::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
 
-        return view('Tasks',get_defined_vars());
+        return view('Tasks', get_defined_vars());
     }
 
     /**
@@ -43,7 +44,8 @@ class TaskController extends Controller
     public function store(TaskRequest $request)
     {
         $request['user_id'] = auth()->user()->id;
-        $task = Task::create($request->all());
+        $apiTask = new APITaskController();
+        $apiTask->StoreTask($request);
 
         return redirect()->back();
     }
@@ -80,22 +82,12 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         $task = Task::find($request->id);
-        if($request->completed != null){
-            $task->update([
-                'title'=>$request->title,
-                'description'=>$request->description,
-                'due_date'=>$request->due_date,
-                'completed'=>true,
-            ]);
+        if ($request->completed != null) {
+            $status = true;
+        } else {
+            $status = false;
         }
-        else{
-            $task->update([
-                'title'=>$request->title,
-                'description'=>$request->description,
-                'due_date'=>$request->due_date,
-                'completed'=>false,
-            ]);
-        }
+        $this->TaskUpdate($task, $request, $status);
         return redirect()->back();
     }
 
@@ -111,5 +103,15 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->back();
+    }
+
+    public function TaskUpdate($task, $request, $status)
+    {
+        $task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'due_date' => $request->due_date,
+            'completed' => $status,
+        ]);
     }
 }

@@ -26,7 +26,6 @@ Route::post('login', [PassportController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     //Route::post('user-detail', [PassportController::class, 'userDetail']);
     Route::post('logout', [PassportController::class, 'logout']);
-    Route::resource('task',TaskController::class);
-    Route::post('task/update/{id}',[TaskController::class,'updatetask']);
+    Route::resource('task', TaskController::class);
+    Route::post('task/update/{id}', [TaskController::class, 'updatetask']);
 });
-

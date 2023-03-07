@@ -29,6 +29,6 @@ class NewTaskNotifier extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.NewTaskNotifier',['name' => $this->name]);
+        return $this->view('Mail.NewTaskNotifier', ['name' => $this->name]);
     }
 }

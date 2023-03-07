@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+
 class UserController extends Controller
 {
     public function index()
@@ -27,27 +28,28 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect('/');
         }
-  
+
         return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 
     public function registerUsers(UserRequest $request)
     {
         $input = $request->only(['name', 'email', 'password']);
- 
+
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password'])
         ]);
-         
+
         return redirect('/');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Session::flush();
         Auth::logout();
-  
+
         return Redirect('login');
     }
 }

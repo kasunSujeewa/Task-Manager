@@ -18,7 +18,7 @@ class TaskDueNotifier extends Mailable
      */
     protected $name;
     protected $title;
-    public function __construct($name,$title)
+    public function __construct($name, $title)
     {
         $this->name = $name;
         $this->title = $title;
@@ -31,6 +31,6 @@ class TaskDueNotifier extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.DueDateNotifier',['name' => $this->name,'title' => $this->title]);
+        return $this->view('Mail.DueDateNotifier', ['name' => $this->name, 'title' => $this->title]);
     }
 }

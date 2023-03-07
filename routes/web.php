@@ -15,17 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('login',[UserController::class,'index'])->name('login');
-Route::get('register',[UserController::class,'register'])->name('register');
-Route::post('register',[UserController::class,'registerUsers']);
-Route::post('login',[UserController::class,'login']);
+Route::get('login', [UserController::class, 'index'])->name('login');
+Route::get('register', [UserController::class, 'register'])->name('register');
+Route::post('register', [UserController::class, 'registerUsers']);
+Route::post('login', [UserController::class, 'login']);
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/',[TaskController::class,'index']);
-    Route::resource('tasks',TaskController::class);
-    Route::delete('/task/delete',[TaskController::class,'destroy']);
-    Route::put('/task/edit',[TaskController::class,'update']);
-    Route::get('logout',[UserController::class,'logout']);
+    Route::get('/', [TaskController::class, 'index']);
+    Route::resource('tasks', TaskController::class);
+    Route::delete('/task/delete', [TaskController::class, 'destroy']);
+    Route::put('/task/edit', [TaskController::class, 'update']);
+    Route::get('logout', [UserController::class, 'logout']);
 });
-
-

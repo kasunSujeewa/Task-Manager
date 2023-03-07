@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Task Manager</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Task Manager</title>
 
-        <!-- Styles -->
-    </head>
-    <body class="antialiased">
-            <!-- Side navigation -->
-            <x-side-nav />
-            <x-task-adding-header />
-            <x-task-adding-model />
-        </div>
-    </body>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+</head>
+
+<body class="antialiased">
+    <!-- Side navigation -->
+    <x-side-nav />
+    <x-task-adding-header />
+    <x-task-adding-model />
+    </div>
+</body>
+
 </html>

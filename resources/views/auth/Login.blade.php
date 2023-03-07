@@ -1,74 +1,76 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Login</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Login</title>
 
-        <!-- Styles -->
-        <style>
-            form {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                border: 1px solid gray; /* add a border around the form */
-                padding: 20px; /* add padding inside the form */
-                max-width: 400px; /* set a maximum width for the form */
-                margin: 10% auto; /* center the form horizontally */
-            }
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-            .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-            }
+  <!-- Styles -->
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid gray;
+      padding: 20px;
+      max-width: 400px;
+      margin: 10% auto;
+    }
 
-            label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
 
-            input {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid gray;
-            }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
 
-            button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            }
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid gray;
+    }
 
-            button:hover {
-            background-color: #3e8e41;
-            }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        </style>
-    </head>
-    <body class="antialiased">
-        <form action="/login" method="POST">
-            @csrf
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Log in</button>
-            <hr>
-            <a href="register">Register</a>
-          </form>
-          
-        </div>
-    </body>
+    button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+  <form action="/login" method="POST">
+    @csrf
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Log in</button>
+    <hr>
+    <a href="register">Register</a>
+  </form>
+
+  </div>
+</body>
+
 </html>
